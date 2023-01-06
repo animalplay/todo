@@ -12,12 +12,20 @@ export default class Model{
     }
     getTodos(){
         return this.todos;
-    }
+    } 
 
     findTodo(id) {
         return this.todos.findIndex((todo) => todo.id === id);
     }
 
+    toggleCompleted(id){
+        const index = this.findTodo(id);
+        const todo = this.todos[index];
+        todo.completed = !todo.completed;
+        console.log(this.todos);
+    }
+
+    
     addTodo(title, description) {
         const todo = {
             id: this.currentId++,
@@ -34,6 +42,6 @@ export default class Model{
     removeTodo(id){
         const index = this.findTodo(id);
         this.todos.splice(index, 1); //elimina del arreglo todos
-        console.log(this.todos[index]);
+        //console.log(this.todos[index]);
     }
 }
