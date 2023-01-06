@@ -3,8 +3,23 @@ export default class Model{
     //clases y objetos -> constructor
     constructor(){
         this.view = null;
-        this.todos = [];
-        this.currentId = 1;
+        //obtener lista  de todos del navegador, del localStorage
+        //this.todos = [];
+        this.todos = JSON.parse(localStorage.getItem('todos'));
+        if(!this.todos || this.todos.length < 1){
+            this.todos = [
+                {
+                    id: 0,
+                    title: 'Learn JS',
+                    description: 'Watch JS tutorials',
+                    completed: false
+                }
+            ]
+            this.currentId = 1;
+        }else{
+            this.currentId = this.todos[this.todos.length - 1].id + 1;
+        }
+        
     }
 
     setView(view){
@@ -12,7 +27,12 @@ export default class Model{
     }
     getTodos(){
         return this.todos;
-    } 
+    }
+    
+    save(){
+        //convertir objeto de todos a json -> strings
+        localStorage.setItem('todos', JSON.stringify(this.todos))
+    }
 
     findTodo(id) {
         return this.todos.findIndex((todo) => todo.id === id);
@@ -23,6 +43,7 @@ export default class Model{
         const todo = this.todos[index];
         todo.completed = !todo.completed;
         console.log(this.todos);
+        this.save();
     }
 
     
@@ -35,7 +56,9 @@ export default class Model{
         }
     
         this.todos.push(todo);
-        console.log(this.todos);    
+        console.log(this.todos); 
+        this.save();
+        
         return {...todo};
     }
 
@@ -43,5 +66,6 @@ export default class Model{
         const index = this.findTodo(id);
         this.todos.splice(index, 1); //elimina del arreglo todos
         //console.log(this.todos[index]);
+        this.save();
     }
 }

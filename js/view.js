@@ -15,6 +15,13 @@ export default class View{
     setModel(model){
         this.model = model;
     }
+    
+    render(){
+        const todos = this.model.getTodos();
+        for(const todo of todos ){
+            this.createRow(todo);
+        }
+    }
 
     toggleCompleted(id){
         this.model.toggleCompleted(id);
