@@ -26,7 +26,7 @@ export default class Model{
         this.view = view;
     }
     getTodos(){
-        return this.todos;
+        return this.todos.map((todo) => ({...todo}));
     }
     
     save(){
